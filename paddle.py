@@ -1,32 +1,26 @@
 from turtle import Turtle
+from constants import SCREEN_HEIGHT
 
-PADDLE_SPEED = 10
-STRETCH_WIDTH = 4
-STRETCH_LEN = 1
-PADDLE_OFFSET = [40, 50]
+MOVE_SPEED = 20
+PADDLE_OFFSET = [40, 70]
 
 class Paddle(Turtle):
-    def __init__(self, pos_origin = (0,0) ,up_key = "Up", down_key = "Down", screen_height = 400):
+    def __init__(self, pos):
         super().__init__()
-
+        self.hit_paddle = False
         self.shape("square")
-        self.penup()
         self.color("white")
-        self.shapesize(stretch_wid = STRETCH_WIDTH, stretch_len = STRETCH_LEN)
-        self.goto(pos_origin)
-        self.setheading(90)
-        self.tiltangle(-90)
-        self.hit_bal = False
-
-        self.up_key = up_key
-        self.down_key = down_key
-        self.screen_height = screen_height
-
+        self.shapesize(stretch_wid=5, stretch_len=1)
+        self.penup()
+        self.goto(pos)
 
     def up(self):
-        if self.ycor() + PADDLE_OFFSET[0] < self.screen_height:
-            self.forward(PADDLE_SPEED)
+        if self.ycor() + PADDLE_OFFSET[0] < SCREEN_HEIGHT / 2:
+            new_y = self.ycor() + 20
+            self.goto(self.xcor(), new_y)
+
 
     def down(self):
-        if self.ycor() - PADDLE_OFFSET[1] > - self.screen_height:
-            self.backward(PADDLE_SPEED)
+        if self.ycor() - PADDLE_OFFSET[1] > - SCREEN_HEIGHT / 2:
+            new_y = self.ycor() - 20
+            self.goto(self.xcor(), new_y)
